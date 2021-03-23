@@ -70,7 +70,6 @@ soap.createClient(
 
         let soapModifyTeamRequestParam = {
             modifyTeamRequest: {
-                // tid: 1,
                 teamSoap: {
                     tId: 1,
                     teamSoapInfo: {
@@ -99,7 +98,6 @@ soap.createClient(
             },
         };
 
-        
         
         client.getTeam(
             soapGetTeamRequestParam, 
