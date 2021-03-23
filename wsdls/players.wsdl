@@ -1,0 +1,172 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://loic.org/ws/components" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://loic.org/ws/components" targetNamespace="http://loic.org/ws/components">
+<wsdl:types>
+<xs:schema xmlns:players="http://loic.org/ws/components" xmlns:teams="http://loic.org/ws/components" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://loic.org/ws/components">
+<xs:include schemaLocation="teams.xsd"/>
+<xs:complexType name="teamPlayerSoap">
+<xs:sequence>
+<xs:element name="teamSoapInfo" type="teams:teamSoapInfo"/>
+<xs:element name="position" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="playerSoapInfo">
+<xs:sequence>
+<xs:element name="pid" type="xs:int"/>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="age" type="xs:int"/>
+<xs:element name="citizenship" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="playerSoap">
+<xs:sequence>
+<xs:element name="pid" type="xs:int"/>
+<xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="teams" type="players:teamPlayerSoap"/>
+</xs:sequence>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="getPlayerRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="pid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getPlayerResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="playerSoap" type="players:playerSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="createPlayerRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="createPlayerResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="playerSoap" type="players:playerSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="modifyPlayerRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="modifyPlayerResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="playerSoap" type="players:playerSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="deletePlayerRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="pid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="deletePlayerResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="deleteResult" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="createPlayerRequest">
+<wsdl:part element="tns:createPlayerRequest" name="createPlayerRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="createPlayerResponse">
+<wsdl:part element="tns:createPlayerResponse" name="createPlayerResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="deletePlayerResponse">
+<wsdl:part element="tns:deletePlayerResponse" name="deletePlayerResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getPlayerRequest">
+<wsdl:part element="tns:getPlayerRequest" name="getPlayerRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getPlayerResponse">
+<wsdl:part element="tns:getPlayerResponse" name="getPlayerResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="modifyPlayerResponse">
+<wsdl:part element="tns:modifyPlayerResponse" name="modifyPlayerResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="modifyPlayerRequest">
+<wsdl:part element="tns:modifyPlayerRequest" name="modifyPlayerRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="deletePlayerRequest">
+<wsdl:part element="tns:deletePlayerRequest" name="deletePlayerRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="PlayersPort">
+<wsdl:operation name="createPlayer">
+<wsdl:input message="tns:createPlayerRequest" name="createPlayerRequest"> </wsdl:input>
+<wsdl:output message="tns:createPlayerResponse" name="createPlayerResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="deletePlayer">
+<wsdl:input message="tns:deletePlayerRequest" name="deletePlayerRequest"> </wsdl:input>
+<wsdl:output message="tns:deletePlayerResponse" name="deletePlayerResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="getPlayer">
+<wsdl:input message="tns:getPlayerRequest" name="getPlayerRequest"> </wsdl:input>
+<wsdl:output message="tns:getPlayerResponse" name="getPlayerResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="modifyPlayer">
+<wsdl:input message="tns:modifyPlayerRequest" name="modifyPlayerRequest"> </wsdl:input>
+<wsdl:output message="tns:modifyPlayerResponse" name="modifyPlayerResponse"> </wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="PlayersPortSoap11" type="tns:PlayersPort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="createPlayer">
+<soap:operation soapAction=""/>
+<wsdl:input name="createPlayerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="createPlayerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="deletePlayer">
+<soap:operation soapAction=""/>
+<wsdl:input name="deletePlayerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="deletePlayerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="getPlayer">
+<soap:operation soapAction=""/>
+<wsdl:input name="getPlayerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="getPlayerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="modifyPlayer">
+<soap:operation soapAction=""/>
+<wsdl:input name="modifyPlayerRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="modifyPlayerResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="PlayersPortService">
+<wsdl:port binding="tns:PlayersPortSoap11" name="PlayersPortSoap11">
+<soap:address location="http://localhost:9090/ws"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>

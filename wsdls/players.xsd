@@ -1,0 +1,99 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           	targetNamespace="http://loic.org/ws/components"
+			xmlns:players="http://loic.org/ws/components"
+			xmlns:teams="http://loic.org/ws/components"
+           	elementFormDefault="qualified">
+	
+	<xs:include schemaLocation="teams.xsd"/>
+	
+	<xs:complexType name="teamPlayerSoap">
+    	<xs:sequence>
+            <xs:element name="teamSoapInfo" type="teams:teamSoapInfo"/>
+            <xs:element name="position" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+	
+	 <xs:complexType name="playerSoapInfo">
+    	<xs:sequence>
+    		<xs:element name="pid" type="xs:int"/>
+    		<xs:element name="name" type="xs:string"/>
+            <xs:element name="age" type="xs:int"/>
+            <xs:element name="citizenship" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="playerSoap">
+        <xs:sequence>
+        	<xs:element name="pid" type="xs:int"/>
+            <xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+            <xs:sequence>
+        		<xs:element name="teams" type="players:teamPlayerSoap" maxOccurs="unbounded"/>
+    		</xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+	
+	<xs:element name="getPlayerRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pid" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPlayerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="playerSoap" type="players:playerSoap" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="createPlayerRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="createPlayerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="playerSoap" type="players:playerSoap"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="modifyPlayerRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="modifyPlayerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="playerSoap" type="players:playerSoap"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deletePlayerRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="pid" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deletePlayerResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="deleteResult" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+</xs:schema>

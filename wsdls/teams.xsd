@@ -1,0 +1,100 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+			xmlns:teams="http://loic.org/ws/components"
+			xmlns:players="http://loic.org/ws/components"
+           	targetNamespace="http://loic.org/ws/components"
+           	elementFormDefault="qualified">
+           	
+	<xs:include schemaLocation="players.xsd"/>
+
+	<xs:complexType name="playerTeamSoap">
+    	<xs:sequence>
+            <xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+            <xs:element name="position" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="teamSoapInfo">
+    	<xs:sequence>
+    		<xs:element name="tId" type="xs:int"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="country" type="xs:string"/>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="captain" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="teamSoap">
+        <xs:sequence>
+        	<xs:element name="tId" type="xs:int"/>
+            <xs:element name="teamSoapInfo" type="teams:teamSoapInfo"/>
+             <xs:sequence>
+        		<xs:element name="players" type="teams:playerTeamSoap" maxOccurs="unbounded"/>
+    		</xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+	
+	<xs:element name="getTeamRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="tid" type="xs:int" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getTeamResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="teamSoap" type="teams:teamSoap" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="createTeamRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="teamSoap" type="teams:teamSoap"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="createTeamResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="teamSoap" type="teams:teamSoap"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="modifyTeamRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="teamSoap" type="teams:teamSoap"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="modifyTeamResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="teamSoap" type="teams:teamSoap"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deleteTeamRequest">
+        <xs:complexType>
+            <xs:sequence>
+            	<xs:element name="tId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="deleteTeamResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="deleteResult" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

@@ -1,0 +1,173 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://loic.org/ws/components" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://loic.org/ws/components" targetNamespace="http://loic.org/ws/components">
+<wsdl:types>
+<xs:schema xmlns:players="http://loic.org/ws/components" xmlns:teams="http://loic.org/ws/components" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://loic.org/ws/components">
+<xs:include schemaLocation="players.xsd"/>
+<xs:complexType name="playerTeamSoap">
+<xs:sequence>
+<xs:element name="playerSoapInfo" type="players:playerSoapInfo"/>
+<xs:element name="position" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="teamSoapInfo">
+<xs:sequence>
+<xs:element name="tId" type="xs:int"/>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="country" type="xs:string"/>
+<xs:element name="type" type="xs:string"/>
+<xs:element name="captain" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="teamSoap">
+<xs:sequence>
+<xs:element name="tId" type="xs:int"/>
+<xs:element name="teamSoapInfo" type="teams:teamSoapInfo"/>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" name="players" type="teams:playerTeamSoap"/>
+</xs:sequence>
+</xs:sequence>
+</xs:complexType>
+<xs:element name="getTeamRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="tid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="getTeamResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="teamSoap" type="teams:teamSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="createTeamRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="teamSoap" type="teams:teamSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="createTeamResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="teamSoap" type="teams:teamSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="modifyTeamRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="teamSoap" type="teams:teamSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="modifyTeamResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="teamSoap" type="teams:teamSoap"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="deleteTeamRequest">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="tId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+<xs:element name="deleteTeamResponse">
+<xs:complexType>
+<xs:sequence>
+<xs:element name="deleteResult" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>
+</wsdl:types>
+<wsdl:message name="getTeamResponse">
+<wsdl:part element="tns:getTeamResponse" name="getTeamResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="deleteTeamRequest">
+<wsdl:part element="tns:deleteTeamRequest" name="deleteTeamRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="deleteTeamResponse">
+<wsdl:part element="tns:deleteTeamResponse" name="deleteTeamResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="createTeamResponse">
+<wsdl:part element="tns:createTeamResponse" name="createTeamResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="getTeamRequest">
+<wsdl:part element="tns:getTeamRequest" name="getTeamRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="createTeamRequest">
+<wsdl:part element="tns:createTeamRequest" name="createTeamRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="modifyTeamResponse">
+<wsdl:part element="tns:modifyTeamResponse" name="modifyTeamResponse"> </wsdl:part>
+</wsdl:message>
+<wsdl:message name="modifyTeamRequest">
+<wsdl:part element="tns:modifyTeamRequest" name="modifyTeamRequest"> </wsdl:part>
+</wsdl:message>
+<wsdl:portType name="TeamsPort">
+<wsdl:operation name="getTeam">
+<wsdl:input message="tns:getTeamRequest" name="getTeamRequest"> </wsdl:input>
+<wsdl:output message="tns:getTeamResponse" name="getTeamResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="deleteTeam">
+<wsdl:input message="tns:deleteTeamRequest" name="deleteTeamRequest"> </wsdl:input>
+<wsdl:output message="tns:deleteTeamResponse" name="deleteTeamResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="createTeam">
+<wsdl:input message="tns:createTeamRequest" name="createTeamRequest"> </wsdl:input>
+<wsdl:output message="tns:createTeamResponse" name="createTeamResponse"> </wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="modifyTeam">
+<wsdl:input message="tns:modifyTeamRequest" name="modifyTeamRequest"> </wsdl:input>
+<wsdl:output message="tns:modifyTeamResponse" name="modifyTeamResponse"> </wsdl:output>
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="TeamsPortSoap11" type="tns:TeamsPort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="getTeam">
+<soap:operation soapAction=""/>
+<wsdl:input name="getTeamRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="getTeamResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="deleteTeam">
+<soap:operation soapAction=""/>
+<wsdl:input name="deleteTeamRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="deleteTeamResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="createTeam">
+<soap:operation soapAction=""/>
+<wsdl:input name="createTeamRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="createTeamResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+<wsdl:operation name="modifyTeam">
+<soap:operation soapAction=""/>
+<wsdl:input name="modifyTeamRequest">
+<soap:body use="literal"/>
+</wsdl:input>
+<wsdl:output name="modifyTeamResponse">
+<soap:body use="literal"/>
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="TeamsPortService">
+<wsdl:port binding="tns:TeamsPortSoap11" name="TeamsPortSoap11">
+<soap:address location="http://localhost:9090/ws"/>
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
